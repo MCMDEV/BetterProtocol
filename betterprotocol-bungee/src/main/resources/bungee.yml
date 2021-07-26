@@ -1,0 +1,4 @@
+name: BetterProtocol
+main: de.mcmdev.betterprotocol.bungee.BetterProtocolBungeePlugin
+version: v0.1
+author: MCMDEV

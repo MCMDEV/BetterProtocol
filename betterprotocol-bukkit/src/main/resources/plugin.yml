@@ -1,0 +1,5 @@
+name: BetterProtocol
+version: 1.0
+author: MCMDEV
+api-version: 1.16
+main: de.mcmdev.betterprotocol.bukkit.BetterProtocolBukkitPlugin
