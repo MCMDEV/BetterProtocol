@@ -47,7 +47,7 @@ public class PacketEvent<T extends Packet, P> {
      *
      * @param packet The new packet
      */
-    public void setPacket(T packet) {
+    public void setPacket(T packet)  {
         this.packet = packet;
     }
 
