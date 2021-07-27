@@ -2,7 +2,8 @@ package de.mcmdev.betterprotocol.bungee;
 
 import com.github.steveice10.packetlib.packet.Packet;
 import com.github.steveice10.packetlib.tcp.io.ByteBufNetInput;
-import de.mcmdev.betterprotocol.common.protocol.StubMinecraftProtocol;
+import de.mcmdev.betterprotocol.common.protocol.AbstractProtocolRegistry;
+import de.mcmdev.betterprotocol.common.protocol.ProtocolRegistry_1_16_5;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
@@ -16,7 +17,7 @@ import org.joor.Reflect;
 
 public class TestListener implements Listener {
 
-    private final StubMinecraftProtocol stubMinecraftProtocol = new StubMinecraftProtocol();
+    private final AbstractProtocolRegistry abstractProtocolRegistry = new ProtocolRegistry_1_16_5();
 
     @EventHandler
     public void onJoin(PostLoginEvent event)    {
@@ -28,8 +29,8 @@ public class TestListener implements Listener {
                 ByteBuf byteBuf = (ByteBuf) msg;
                 int readerIndex = byteBuf.readerIndex();
                 ByteBufNetInput netInput = new ByteBufNetInput(byteBuf);
-                int i = stubMinecraftProtocol.getPacketHeader().readPacketId(netInput);
-                Packet packet = stubMinecraftProtocol.createIncomingPacket(i);
+                int i = abstractProtocolRegistry.getPacketHeader().readPacketId(netInput);
+                Packet packet = abstractProtocolRegistry.createIncomingPacket(i);
                 packet.read(netInput);
 
                 System.out.println(packet);

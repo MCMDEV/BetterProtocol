@@ -14,20 +14,10 @@ import com.github.steveice10.mc.protocol.packet.ingame.server.scoreboard.ServerT
 import com.github.steveice10.mc.protocol.packet.ingame.server.scoreboard.ServerUpdateScorePacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.window.*;
 import com.github.steveice10.mc.protocol.packet.ingame.server.world.*;
-import com.github.steveice10.packetlib.packet.*;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 
-import java.lang.reflect.Constructor;
+public class ProtocolRegistry_1_16_5 extends AbstractProtocolRegistry {
 
-public class StubMinecraftProtocol {
-
-    private final BiMap<Integer, Class<? extends Packet>> incoming = HashBiMap.create();
-    private final BiMap<Integer, Class<? extends Packet>> outgoing = HashBiMap.create();
-
-    private final PacketHeader packetHeader = new DefaultPacketHeader();
-
-    public StubMinecraftProtocol() {
+    public ProtocolRegistry_1_16_5() {
         this.registerIncoming(0x00, ClientTeleportConfirmPacket.class);
         this.registerIncoming(0x01, ClientBlockNBTRequestPacket.class);
         this.registerIncoming(0x02, ClientSetDifficultyPacket.class);
@@ -169,83 +159,5 @@ public class StubMinecraftProtocol {
         this.registerOutgoing(0x59, ServerEntityEffectPacket.class);
         this.registerOutgoing(0x5A, ServerDeclareRecipesPacket.class);
         this.registerOutgoing(0x5B, ServerDeclareTagsPacket.class);
-    }
-
-    public PacketHeader getPacketHeader() {
-        return packetHeader;
-    }
-
-    public final void registerIncoming(int id, Class<? extends Packet> packet) {
-        this.incoming.put(id, packet);
-    }
-
-    public final void registerOutgoing(int id, Class<? extends Packet> packet) {
-        this.outgoing.put(id, packet);
-    }
-
-    public final Packet createIncomingPacket(int id) {
-        Class<? extends Packet> packet = (Class)this.incoming.get(id);
-        if (packet == null) {
-            throw new IllegalArgumentException("Invalid packet id: " + id);
-        } else {
-            try {
-                Constructor<? extends Packet> constructor = packet.getDeclaredConstructor();
-                if (!constructor.isAccessible()) {
-                    constructor.setAccessible(true);
-                }
-
-                return (Packet)constructor.newInstance();
-            } catch (NoSuchMethodError var4) {
-                throw new IllegalStateException("Packet \"" + id + ", " + packet.getName() + "\" does not have a no-params constructor for instantiation.");
-            } catch (Exception var5) {
-                throw new IllegalStateException("Failed to instantiate packet \"" + id + ", " + packet.getName() + "\".", var5);
-            }
-        }
-    }
-
-    public final int getIncomingId(Class<? extends Packet> packetClass) {
-        Integer packetId = this.incoming.inverse().get(packetClass);
-        if (packetId == null) {
-            throw new IllegalArgumentException("Unregistered outgoing packet class: " + packetClass.getName());
-        } else {
-            return packetId;
-        }
-    }
-
-    public final int getIncomingId(Packet packet) {
-        return packet instanceof BufferedPacket ? this.getIncomingId(((BufferedPacket)packet).getPacketClass()) : this.getIncomingId(packet.getClass());
-    }
-
-    public final int getOutgoingId(Class<? extends Packet> packetClass) {
-        Integer packetId = this.outgoing.inverse().get(packetClass);
-        if (packetId == null) {
-            throw new IllegalArgumentException("Unregistered outgoing packet class: " + packetClass.getName());
-        } else {
-            return packetId;
-        }
-    }
-
-    public final int getOutgoingId(Packet packet) {
-        return packet instanceof BufferedPacket ? this.getIncomingId(((BufferedPacket)packet).getPacketClass()) : this.getOutgoingId(packet.getClass());
-    }
-
-    public final Packet createOutgoingPacket(int id) {
-        Class<? extends Packet> packet = (Class)this.outgoing.get(id);
-        if (packet == null) {
-            throw new IllegalArgumentException("Invalid packet id: " + id);
-        } else {
-            try {
-                Constructor<? extends Packet> constructor = packet.getDeclaredConstructor();
-                if (!constructor.isAccessible()) {
-                    constructor.setAccessible(true);
-                }
-
-                return (Packet)constructor.newInstance();
-            } catch (NoSuchMethodError var4) {
-                throw new IllegalStateException("Packet \"" + id + ", " + packet.getName() + "\" does not have a no-params constructor for instantiation.");
-            } catch (Exception var5) {
-                throw new IllegalStateException("Failed to instantiate packet \"" + id + ", " + packet.getName() + "\".", var5);
-            }
-        }
     }
 }

@@ -1,21 +1,17 @@
 package de.mcmdev.betterprotocol.bukkit.inject;
 
+import de.mcmdev.betterprotocol.common.inject.Injector;
+import de.mcmdev.betterprotocol.common.listener.CommonEventBus;
+import de.mcmdev.betterprotocol.common.protocol.AbstractProtocolRegistry;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandler;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-public abstract class Injector {
+public abstract class BukkitInjector extends Injector<Player> {
 
-    private final String stage;
-    private final String name;
-
-    public Injector(String stage, String name) {
-        this.stage = stage;
-        this.name = name;
+    public BukkitInjector(String stage, String name, AbstractProtocolRegistry protocolRegistry, CommonEventBus<Player> bukkitEventBus) {
+        super(stage, name, protocolRegistry, bukkitEventBus);
     }
-
-    public abstract ChannelHandler getHandler(Player player);
 
     public void inject(Player player)   {
         Channel channel = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel;
