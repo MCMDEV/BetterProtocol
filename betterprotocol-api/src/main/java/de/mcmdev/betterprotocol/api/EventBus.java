@@ -1,4 +1,5 @@
 package de.mcmdev.betterprotocol.api;
+
 import com.github.steveice10.packetlib.packet.Packet;
 
 public interface EventBus<P> {
@@ -9,13 +10,14 @@ public interface EventBus<P> {
      * @param packetClass The packet type you want to listen to
      * @param packetListenerFunction Your packet listener
      */
-    <T extends Packet> void listen(Class<T> packetClass, PacketListenerFunction<T, P> packetListenerFunction);
+    <T extends Packet> void listen(
+            Class<T> packetClass, PacketListenerFunction<T, P> packetListenerFunction);
 
     /**
-     * Registers all functions on the listener that are annotated with {@link PacketHandler} as packet handlers.
+     * Registers all functions on the listener that are annotated with {@link PacketHandler} as
+     * packet handlers.
      *
      * @param listener The listener whose handlers to register
      */
     void listen(PacketListener listener);
-
 }

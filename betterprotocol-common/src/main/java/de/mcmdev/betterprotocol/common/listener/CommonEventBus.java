@@ -3,6 +3,7 @@ package de.mcmdev.betterprotocol.common.listener;
 import com.github.steveice10.packetlib.packet.Packet;
 import com.nesaak.noreflection.NoReflection;
 import com.nesaak.noreflection.access.DynamicCaller;
+
 import de.mcmdev.betterprotocol.api.EventBus;
 import de.mcmdev.betterprotocol.api.PacketEvent;
 import de.mcmdev.betterprotocol.api.PacketHandler;
@@ -24,9 +25,11 @@ import java.util.Map;
  */
 public class CommonEventBus<P> implements EventBus<P> {
 
-    private final Map<Class<? extends Packet>, List<PacketListenerFunction>> listenerMap = new HashMap<>();
+    private final Map<Class<? extends Packet>, List<PacketListenerFunction>> listenerMap =
+            new HashMap<>();
 
-    public <T extends Packet> void listen(Class<T> packetClass, PacketListenerFunction<T, P> packetListenerFunction) {
+    public <T extends Packet> void listen(
+            Class<T> packetClass, PacketListenerFunction<T, P> packetListenerFunction) {
         listenerMap.putIfAbsent(packetClass, new ArrayList<>());
         listenerMap.get(packetClass).add(packetListenerFunction);
     }
@@ -46,22 +49,28 @@ public class CommonEventBus<P> implements EventBus<P> {
 
                 // check the method signature
                 if (method.getReturnType() != void.class) {
-                    throw new IllegalArgumentException("Methods annotated with @PacketHandler must return void");
+                    throw new IllegalArgumentException(
+                            "Methods annotated with @PacketHandler must return void");
                 }
 
                 if (method.getParameterCount() != 1
                         || !PacketEvent.class.isAssignableFrom(method.getParameterTypes()[0])) {
-                    throw new IllegalArgumentException("Methods annotated with @PacketHandler must have a PacketEvent as the only argument");
+                    throw new IllegalArgumentException(
+                            "Methods annotated with @PacketHandler must have a PacketEvent as the only argument");
                 }
 
                 // determine the packet event's packet type (first generic type argument)
                 if (!(method.getGenericParameterTypes()[0] instanceof ParameterizedType)) {
-                    throw new IllegalArgumentException("Could not determine the PacketEvent's Packet generic parameter - is it defined?");
+                    throw new IllegalArgumentException(
+                            "Could not determine the PacketEvent's Packet generic parameter - is it defined?");
                 }
 
-                Type packetType = ((ParameterizedType) method.getGenericParameterTypes()[0]).getActualTypeArguments()[0];
+                Type packetType =
+                        ((ParameterizedType) method.getGenericParameterTypes()[0])
+                                .getActualTypeArguments()[0];
                 if (!(packetType instanceof Class)) {
-                    throw new IllegalArgumentException("Could not determine the PacketEvent's Packet generic parameter's class");
+                    throw new IllegalArgumentException(
+                            "Could not determine the PacketEvent's Packet generic parameter's class");
                 }
 
                 Class<? extends Packet> packetClass = (Class<? extends Packet>) packetType;
@@ -71,9 +80,11 @@ public class CommonEventBus<P> implements EventBus<P> {
                 // instead of reflection for invocation to increase performance
                 DynamicCaller noReflectionMethod = NoReflection.shared().get(method);
 
-                listen(packetClass, event -> {
-                    noReflectionMethod.call(listener, event);
-                });
+                listen(
+                        packetClass,
+                        event -> {
+                            noReflectionMethod.call(listener, event);
+                        });
             }
 
             clazz = clazz.getSuperclass();
@@ -81,10 +92,12 @@ public class CommonEventBus<P> implements EventBus<P> {
     }
 
     public void post(PacketEvent<?, P> event) {
-        List<PacketListenerFunction> packetListenerFunctions = listenerMap.get(event.getPacketType());
+        List<PacketListenerFunction> packetListenerFunctions =
+                listenerMap.get(event.getPacketType());
         if (packetListenerFunctions == null) {
             return;
         }
-        packetListenerFunctions.forEach(packetListenerFunction -> packetListenerFunction.handle(event));
+        packetListenerFunctions.forEach(
+                packetListenerFunction -> packetListenerFunction.handle(event));
     }
 }

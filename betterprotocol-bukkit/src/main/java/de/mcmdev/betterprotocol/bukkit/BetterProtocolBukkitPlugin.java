@@ -1,8 +1,7 @@
 package de.mcmdev.betterprotocol.bukkit;
 
-import com.github.steveice10.mc.protocol.packet.ingame.client.player.ClientPlayerPlaceBlockPacket;
-import com.github.steveice10.mc.protocol.packet.ingame.server.ServerChatPacket;
 import com.github.steveice10.packetlib.packet.Packet;
+
 import de.mcmdev.betterprotocol.BetterProtocol;
 import de.mcmdev.betterprotocol.bukkit.inject.EncodingInjector;
 import de.mcmdev.betterprotocol.bukkit.inject.IncomingInjector;
@@ -11,7 +10,7 @@ import de.mcmdev.betterprotocol.common.BetterProtocolPlatform;
 import de.mcmdev.betterprotocol.common.BetterProtocolPlugin;
 import de.mcmdev.betterprotocol.common.inject.Injector;
 import de.mcmdev.betterprotocol.common.listener.CommonEventBus;
-import net.kyori.adventure.text.Component;
+
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -37,26 +36,35 @@ public class BetterProtocolBukkitPlugin extends JavaPlugin implements BetterProt
 
     @Override
     public void registerInjectors() {
-        bukkitPlatform.registerInjector(new IncomingInjector(bukkitPlatform.getProtocolRegistry(), bukkitPlatform.getEventBus()));
-        bukkitPlatform.registerInjector(new OutgoingInjector(bukkitPlatform.getProtocolRegistry(), bukkitPlatform.getEventBus()));
-        bukkitPlatform.registerInjector(new EncodingInjector(bukkitPlatform.getProtocolRegistry(), bukkitPlatform.getEventBus()));
+        bukkitPlatform.registerInjector(
+                new IncomingInjector(
+                        bukkitPlatform.getProtocolRegistry(), bukkitPlatform.getEventBus()));
+        bukkitPlatform.registerInjector(
+                new OutgoingInjector(
+                        bukkitPlatform.getProtocolRegistry(), bukkitPlatform.getEventBus()));
+        bukkitPlatform.registerInjector(
+                new EncodingInjector(
+                        bukkitPlatform.getProtocolRegistry(), bukkitPlatform.getEventBus()));
     }
 
     @Override
     public void registerListeners(Set<Injector<Player>> injectors) {
-        getServer().getPluginManager().registerEvents(new Listener() {
+        getServer()
+                .getPluginManager()
+                .registerEvents(
+                        new Listener() {
 
-            @EventHandler
-            public void onJoin(PlayerJoinEvent event)   {
-                injectors.forEach(injector -> injector.inject(event.getPlayer()));
-            }
+                            @EventHandler
+                            public void onJoin(PlayerJoinEvent event) {
+                                injectors.forEach(injector -> injector.inject(event.getPlayer()));
+                            }
 
-            @EventHandler
-            public void onQuit(PlayerQuitEvent event)   {
-                injectors.forEach(injector -> injector.uninject(event.getPlayer()));
-            }
-
-        }, this);
+                            @EventHandler
+                            public void onQuit(PlayerQuitEvent event) {
+                                injectors.forEach(injector -> injector.uninject(event.getPlayer()));
+                            }
+                        },
+                        this);
     }
 
     @Override
@@ -65,7 +73,12 @@ public class BetterProtocolBukkitPlugin extends JavaPlugin implements BetterProt
     }
 
     @Override
-    public void send(Player player, Packet packet)  {
-        ((CraftPlayer)player).getHandle().playerConnection.networkManager.channel.writeAndFlush(packet);
+    public void send(Player player, Packet packet) {
+        ((CraftPlayer) player)
+                .getHandle()
+                .playerConnection
+                .networkManager
+                .channel
+                .writeAndFlush(packet);
     }
 }
