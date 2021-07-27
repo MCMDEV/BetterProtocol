@@ -17,6 +17,7 @@ public class PacketEvent<T extends Packet, P> {
 
     /**
      * Returns the receiver/sender of the packet
+     *
      * @return The receiver/sender of the packet
      */
     public P getPlayer() {
@@ -25,6 +26,7 @@ public class PacketEvent<T extends Packet, P> {
 
     /**
      * Returns the class of the packet
+     *
      * @return The class of the packet
      */
     public Class<T> getPacketType() {
@@ -33,6 +35,7 @@ public class PacketEvent<T extends Packet, P> {
 
     /**
      * Returns the involved packet itself
+     *
      * @return The involved packet
      */
     public T getPacket() {
@@ -41,6 +44,7 @@ public class PacketEvent<T extends Packet, P> {
 
     /**
      * Replaces the packet involved in the event
+     *
      * @param packet The new packet
      */
     public void setPacket(T packet) {
@@ -49,6 +53,7 @@ public class PacketEvent<T extends Packet, P> {
 
     /**
      * If true, prevents further processing/sending of the packet
+     *
      * @param cancelled The cancel state
      */
     public void setCancelled(boolean cancelled) {
@@ -57,6 +62,7 @@ public class PacketEvent<T extends Packet, P> {
 
     /**
      * If true, prevents further processing/sending of the packet
+     *
      * @return The cancel state
      */
     public boolean isCancelled() {

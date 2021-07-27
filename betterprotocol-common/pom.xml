@@ -29,6 +29,11 @@
             <version>30.1.1-jre</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.Nesaak</groupId>
+            <artifactId>NoReflection</artifactId>
+            <version>28e3db8</version>
+        </dependency>
     </dependencies>
 
 </project>

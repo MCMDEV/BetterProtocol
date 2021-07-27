@@ -12,7 +12,7 @@ public interface BetterProtocolAPI<P> {
     void send(P player, Packet packet);
 
     /**
-     * Returns the EventBus used to register a {@link PacketListener}
+     * Returns the EventBus used to register a {@link PacketListenerFunction}
      * @return The EventBus
      */
     EventBus<P> getEventBus();
