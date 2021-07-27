@@ -33,10 +33,6 @@ public class BetterProtocolBukkitPlugin extends JavaPlugin implements BetterProt
         this.bukkitPlatform.initialize();
 
         BetterProtocol.provide(this.bukkitPlatform);
-
-        BetterProtocol.<Player>get().getEventBus().listen(ClientPlayerPlaceBlockPacket.class, event -> {
-            BetterProtocol.<Player>get().send(event.getPlayer(), new ServerChatPacket(Component.text("Placed block at " + event.getPacket().toString())));
-        });
     }
 
     @Override
