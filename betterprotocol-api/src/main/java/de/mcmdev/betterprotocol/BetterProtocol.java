@@ -7,7 +7,7 @@ public class BetterProtocol {
     private static BetterProtocolAPI INSTANCE;
 
     public static void provide(BetterProtocolAPI INSTANCE) {
-        if(BetterProtocol.INSTANCE != null)    {
+        if (BetterProtocol.INSTANCE != null) {
             throw new IllegalStateException("An instance has already been provided.");
         }
         BetterProtocol.INSTANCE = INSTANCE;
@@ -20,8 +20,9 @@ public class BetterProtocol {
      * @return The API interface
      */
     public static <P> BetterProtocolAPI<P> get() {
-        if(INSTANCE == null)    {
-            throw new IllegalStateException("No BetterProtocol instance provided. Please check if your platform is supported.");
+        if (INSTANCE == null) {
+            throw new IllegalStateException(
+                    "No BetterProtocol instance provided. Please check if your platform is supported.");
         }
         return INSTANCE;
     }

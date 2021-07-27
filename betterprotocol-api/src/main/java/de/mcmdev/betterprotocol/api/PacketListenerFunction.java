@@ -6,5 +6,4 @@ import com.github.steveice10.packetlib.packet.Packet;
 public interface PacketListenerFunction<T extends Packet, P> {
 
     void handle(PacketEvent<T, P> event);
-
 }

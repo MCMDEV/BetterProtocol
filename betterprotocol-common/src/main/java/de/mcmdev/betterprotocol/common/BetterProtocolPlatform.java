@@ -1,6 +1,7 @@
 package de.mcmdev.betterprotocol.common;
 
 import com.github.steveice10.packetlib.packet.Packet;
+
 import de.mcmdev.betterprotocol.api.BetterProtocolAPI;
 import de.mcmdev.betterprotocol.common.inject.Injector;
 import de.mcmdev.betterprotocol.common.listener.CommonEventBus;
@@ -12,6 +13,7 @@ import java.util.Set;
 
 /**
  * The common core of BetterProtocol, which implements the API
+ *
  * @param <P> The player type
  */
 public class BetterProtocolPlatform<P> implements BetterProtocolAPI<P> {
@@ -26,7 +28,7 @@ public class BetterProtocolPlatform<P> implements BetterProtocolAPI<P> {
         this.eventBus = eventBus;
     }
 
-    public void initialize()    {
+    public void initialize() {
         this.protocolRegistry = findProtocolRegistry();
         plugin.registerInjectors();
         plugin.registerListeners(injectors);
@@ -37,7 +39,7 @@ public class BetterProtocolPlatform<P> implements BetterProtocolAPI<P> {
         plugin.send(player, packet);
     }
 
-    public void registerInjector(Injector<P> injector)  {
+    public void registerInjector(Injector<P> injector) {
         this.injectors.add(injector);
     }
 
@@ -51,7 +53,7 @@ public class BetterProtocolPlatform<P> implements BetterProtocolAPI<P> {
     }
 
     private AbstractProtocolRegistry findProtocolRegistry() {
-        if(plugin.getVersion().contains("1.16.5"))  {
+        if (plugin.getVersion().contains("1.16.5")) {
             return new ProtocolRegistry_1_16_5();
         }
 
