@@ -9,10 +9,10 @@
     <packaging>pom</packaging>
     <version>${revision}</version>
     <modules>
-        <module>betterprotocol-bukkit</module>
         <module>betterprotocol-api</module>
-        <module>betterprotocol-bungee</module>
         <module>betterprotocol-common</module>
+        <module>betterprotocol-bukkit</module>
+        <module>betterprotocol-bungee</module>
     </modules>
 
     <properties>

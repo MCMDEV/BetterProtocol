@@ -20,7 +20,7 @@
         <dependency>
             <groupId>de.mcmdev</groupId>
             <artifactId>betterprotocol-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${revision}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
