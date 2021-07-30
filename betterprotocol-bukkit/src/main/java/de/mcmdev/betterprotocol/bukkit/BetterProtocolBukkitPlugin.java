@@ -28,14 +28,17 @@ public class BetterProtocolBukkitPlugin extends JavaPlugin implements BetterProt
 
     @Override
     public void onEnable() {
+        // create platform
         this.bukkitPlatform = new BetterProtocolPlatform<>(this, new CommonEventBus<>());
         this.bukkitPlatform.initialize();
 
+        // provide the platform to the api singleton
         BetterProtocol.provide(this.bukkitPlatform);
     }
 
     @Override
     public void registerInjectors() {
+        // register the three default injectors
         bukkitPlatform.registerInjector(
                 new IncomingInjector(
                         bukkitPlatform.getProtocolRegistry(), bukkitPlatform.getEventBus()));
@@ -56,11 +59,13 @@ public class BetterProtocolBukkitPlugin extends JavaPlugin implements BetterProt
 
                             @EventHandler
                             public void onJoin(PlayerJoinEvent event) {
+                                // inject all injectors in join
                                 injectors.forEach(injector -> injector.inject(event.getPlayer()));
                             }
 
                             @EventHandler
                             public void onQuit(PlayerQuitEvent event) {
+                                // uninject all injectors on quit
                                 injectors.forEach(injector -> injector.uninject(event.getPlayer()));
                             }
                         },

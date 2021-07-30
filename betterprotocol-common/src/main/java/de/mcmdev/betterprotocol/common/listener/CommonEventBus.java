@@ -30,6 +30,8 @@ public class CommonEventBus<P> implements EventBus<P> {
 
     public <T extends Packet> void listen(
             Class<T> packetClass, PacketListenerFunction<T, P> packetListenerFunction) {
+        // register the listener for the packet, create a list and put it, if it doesn't already
+        // exist
         listenerMap.putIfAbsent(packetClass, new ArrayList<>());
         listenerMap.get(packetClass).add(packetListenerFunction);
     }

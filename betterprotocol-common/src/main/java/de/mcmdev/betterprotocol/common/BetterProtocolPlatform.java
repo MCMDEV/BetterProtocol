@@ -1,7 +1,6 @@
 package de.mcmdev.betterprotocol.common;
 
 import com.github.steveice10.packetlib.packet.Packet;
-
 import de.mcmdev.betterprotocol.api.BetterProtocolAPI;
 import de.mcmdev.betterprotocol.common.inject.Injector;
 import de.mcmdev.betterprotocol.common.listener.CommonEventBus;
@@ -29,8 +28,13 @@ public class BetterProtocolPlatform<P> implements BetterProtocolAPI<P> {
     }
 
     public void initialize() {
+        // use a protocol registry for the current version
         this.protocolRegistry = findProtocolRegistry();
+
+        // register all the plugin injectors
         plugin.registerInjectors();
+
+        // register listeners to inject these injectors
         plugin.registerListeners(injectors);
     }
 

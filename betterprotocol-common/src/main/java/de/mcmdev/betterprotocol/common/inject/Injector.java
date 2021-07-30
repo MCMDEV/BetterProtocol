@@ -12,7 +12,9 @@ import io.netty.channel.ChannelHandler;
  */
 public abstract class Injector<P> {
 
+    /** The name of the reference handler. The injector will inject before this handler. */
     protected final String stage;
+
     protected final String name;
     protected final AbstractProtocolRegistry protocolRegistry;
     protected final CommonEventBus<P> eventBus;
