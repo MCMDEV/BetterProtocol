@@ -3,6 +3,7 @@ package de.mcmdev.protowrapper;
 import com.github.steveice10.mc.protocol.MinecraftProtocol;
 import com.github.steveice10.mc.protocol.codec.MinecraftCodec;
 import com.github.steveice10.mc.protocol.data.ProtocolState;
+import com.github.steveice10.packetlib.packet.Packet;
 import de.mcmdev.protowrapper.channelhandler.IncomingHandler;
 import de.mcmdev.protowrapper.channelhandler.OutgoingHandler;
 import de.mcmdev.protowrapper.channelhandler.PacketCodec;
@@ -97,6 +98,17 @@ public class ProtoWrapper {
 	 */
 	public List<PacketListener> getPacketListeners() {
 		return packetListeners;
+	}
+
+	/**
+	 * Sends a packet to the player.
+	 * Events will still be processed as normal.
+	 *
+	 * @param player The receiver of the packet
+	 * @param packet The packet to be sent
+	 */
+	public void send(Player player, Packet packet) {
+		channelProvider.apply(player).writeAndFlush(packet);
 	}
 
 	private MinecraftProtocol prepareProtocol() {
